@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, url_for
+from flask import Flask, request, redirect, render_template, url_for, session
 import mysql.connector
 
 conn = mysql.connector.connect(
@@ -11,6 +11,10 @@ app = Flask("app")
 app.config['DEBUG'] = True
 
 @app.route('/')
+def login():
+    return render_template("login.html")
+
+@app.route('/index/')
 def index():
     users = []
     conn.reconnect()
@@ -27,7 +31,7 @@ def blog():
     posts = []
     conn.reconnect()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM blogs")
+    cursor.execute("SELECT * FROM posts")
     result = cursor.fetchall()
     for entry in result:
         posts.append(entry)
@@ -39,7 +43,7 @@ def post():
     id = request.args.get("id")
     conn.reconnect()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM blogs WHERE ID = '{}'".format(id))
+    cursor.execute("SELECT * FROM posts WHERE ID = '{}'".format(id))
     result = cursor.fetchall()
     for post in result:
         entry = post
@@ -62,7 +66,6 @@ def post():
 def newpost():
     return render_template("newpost.html")
 
-@app.route("/",  methods=['POST', 'GET'])
 @app.route("/newpost/",  methods=['POST', 'GET'])
 def checkTitle():
     if request.method == 'POST':
@@ -81,7 +84,37 @@ def checkTitle():
             return render_template("newpost.html", post=post, title=title, titleError=titleError, postError=postError)
         else:
             posts = []
-            sql = """INSERT INTO blogs(
+            sql = """INSERT INTO posts(
+            title, post)
+            VALUES ('{}', '{}')""".format(title, post)
+            conn.reconnect()
+            cursor = conn.cursor()
+            cursor.execute(sql)
+
+            conn.commit()
+            
+            return redirect("/post/?id={}".format(cursor.lastrowid))
+            conn.close()
+
+@app.route("/signup/",  methods=['POST', 'GET'])
+def checkSignup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        usernameError = ""
+        passwordError = ""
+        errorCount = 0
+        if username == "":
+            titleError = "This field needs to be filled out"
+            errorCount += 1
+        elif password == "":
+            postError = "This field needs to be filled out"
+            errorCount += 1
+        if errorCount > 0:
+            return render_template("newpost.html", post=post, title=title, titleError=titleError, postError=postError)
+        else:
+            posts = []
+            sql = """INSERT INTO posts(
             title, post)
             VALUES ('{}', '{}')""".format(title, post)
             conn.reconnect()
