@@ -11,9 +11,20 @@ app = Flask("app")
 app.config['DEBUG'] = True
 
 @app.route('/')
+def index():
+    users = []
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users")
+    result = cursor.fetchall()
+    for users in result:
+        users.append(users)
+    conn.close()
+    return render_template('index.html', users=users)
+
+@app.route('/blog/')
 def blog():
     posts = []
-    titles = []
     conn.reconnect()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM blogs")
@@ -34,6 +45,18 @@ def post():
         entry = post
     conn.close()
     return render_template('post.html', entry=entry)
+
+@app.route("/singleUser/",  methods=['GET'])
+def post():
+    id = request.args.get("id")
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM posts WHERE user = '{}'".format(id))
+    result = cursor.fetchall()
+    for post in result:
+        entry = post
+    conn.close()
+    return render_template('singleUser.html', entry=entry)
 
 @app.route("/newpost/")
 def newpost():
