@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        <div class="navbar">
+            <a href="{{ url_for('blog') }}" class="navbar-brand">Home</a>&emsp;
+            <a href="{{ url_for('newpost') }}" class="navbar-item">Add New Post</a>
+        </div>
+
+        <div class="body-content">
+            {% block content %}
+            {% endblock %}
+            <hr/>
+            <footer>
+                <p>&copy; 2022</p>
+            </footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+Home
+{% endblock %}
+{% block content %}
+{% if posts|length == 0 %}
+    <p>No posts yet</p>
+    {% else %}
+            {% for entry in posts %}
+            <h2><a href="{{ url_for('post') }}?id={{entry[0]}}">{{entry[1]}}</a></h2>
+            <p style="border-bottom: 1px solid rgb(146, 145, 145); width: 100%;">{{entry[2]}}</p>
+            {% endfor %}
+    {% endif %}
+{% endblock %}
