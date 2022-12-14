@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\clawl\OneDrive\Documents\LLC\Fall 2022\web_scripting\build-a-blog\.venv"
+VIRTUAL_ENV="C:\Users\clawl\OneDrive\Documents\LLC\Fall 2022\web_scripting\blogz\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

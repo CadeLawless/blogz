@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block title %}
-New Post
+Login to Blogz
 {% endblock %}
 {% block content %}
-<h1>Add New Post</h1>
-<form method="POST" action="/">
-    <label>Title:</label><br>
-    <input name="title" value="{{title}}" type="text"><span style="color: red">{{titleError}}</span><br>
-    <label>Post:</label><br>
-    <textarea name="post" rows="5">{{post}}</textarea><span style="color: red">{{postError}}</span><br>
-    <input type="submit" value="Add">
+<h1>Login to Blogz</h1>
+<form method="POST" action="">
+    <label>Username:</label><br>
+    <input name="username" value="{{username}}" type="text"><span style="color: red">{{usernameError}}</span><br>
+    <label>Password:</label><br>
+    <input name="password" value="{{password}}" type="password"><span style="color: red">{{passwordError}}</span><br><br>
+    <input type="submit" value="Login"><br><br>
+    <p>Don't have an account?</p>
+    <a href="{{url_for('signup')}}">Create an Account</a>
 </form>
 {% endblock %}

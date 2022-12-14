@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block title %}
-Post {{entry[2]}}
+Author {{user}}
 {% endblock %}
 {% block content %}
-    <h2>{{entry[2]}}</h2>
-    <p style="border-bottom: 1px solid rgb(146, 145, 145); width: 100%;">{{entry[3]}}</p>
+<h1>Posts from {{user}}</h1>
+{% if posts|length == 0 %}
+    <p>No posts yet</p>
+{% else %}
+    {% for post in posts %}
+        <h2><a href="{{ url_for('post') }}?id={{post[0]}}">{{post[1]}}</a></h2>
+        <p style="border-bottom: 1px solid rgb(146, 145, 145); width: 100%;">{{post[2]}}</p>
+    {% endfor %}
+{% endif %}
 {% endblock %}

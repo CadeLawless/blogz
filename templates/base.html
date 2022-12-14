@@ -7,8 +7,12 @@
 
     <body>
         <div class="navbar">
-            <a href="{{ url_for('blog') }}" class="navbar-brand">Home</a>&emsp;
-            <a href="{{ url_for('newpost') }}" class="navbar-item">Add New Post</a>
+            <a href="{{ url_for('index') }}" class="navbar-brand">Home</a>&emsp;
+            <a href="{{ url_for('blog') }}" class="navbar-brand">Blog</a>&emsp;
+            <a href="{{ url_for('newpost') }}" class="navbar-item">Add New Post</a>&emsp;
+            {% if session['username'] %}
+                <a href="{{ url_for('logout') }}" class="navbar-item">Logout</a>
+            {% endif %}
         </div>
 
         <div class="body-content">
